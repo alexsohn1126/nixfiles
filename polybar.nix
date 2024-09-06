@@ -15,14 +15,14 @@
     let 
       background = "#282A2E";
       background-alt = "#373B41";
-      foreground = "#C5C8C6";
-      primary = "#F0C674";
+      foreground = "#C6D0F5";
+      primary = "#85C1DC";
       secondary = "#8ABEB7";
       alert = "#A54242";
       disabled = "#707880";
     in {
       "settings" = {
-        screencahnge-reload = true;
+        screenchange-reload = true;
 	pseudo-transparency = true;
       };
 
@@ -33,12 +33,11 @@
       "bar/top" = {
         inherit background foreground;
         width = "100%";
-	height = "24pt";
-	radius = 6;
+	height = "18pt";
 	
 	line-size = "3pt";
 	border-size = "4pt";
-	border-color = "#000000";
+	border-color = background;
 
 	padding-left = 0;
 	padding-right = 1;
@@ -48,9 +47,11 @@
 	separator = "|";
 	separator-foreground = disabled;
 
-	font-0 = "JetBrainsMono;2";
+	font-0 = "JetBrainsMonoNL NFM;2";
+	font-1 = "Noto Sans Mono CJK KR;2";
 
-	modules-left = "xworkspaces xwindow";
+	modules-left = "i3";
+	modules-center = "xwindow";
 	modules-right = "volume xkeyboard systray date";
 
 	cursor-click = "pointer";
@@ -66,24 +67,27 @@
 	tray-spacing = "16pt";
       };
 
-      "module/xworkspaces" = {
-        type = "internal/xworkspaces";
+      "module/i3" = {
+        type = "internal/i3";
 
-	label-active = "%name%";
-	label-active-background = background-alt;
-	label-active-underline = primary;
-	label-active-padding = 1;
+	strip-wsnumbers = true;
+	index-sort = true;
 
-	label-occupied = "%name%";
-	label-occupied-padding = 1;
+	label-mode-padding = "4pt";
+
+	label-focused = "%name%";
+	label-focused-background = background-alt;
+	label-focused-underline = primary;
+	label-focused-padding = 1;
+
+        label-unfocused = "%name%";
+	label-unfocused-padding = 1;
+
+	label-visible = "%name%";
+	label-visible-padding = 1;
 
 	label-urgent = "%name%";
-	label-urgent-background = disabled;
 	label-urgent-padding = 1;
-
-	label-empty = "%name%";
-	label-empty-foreground = disabled;
-	label-empty-padding = 1;
       };
 
       "module/xwindow" = {
@@ -93,25 +97,6 @@
 
       "module/volume" = {
         type = "internal/pulseaudio";
-      };
-
-      "module/volume-old" = 
-      let
-        grep-muted =
-	'' wpctl get-volume @DEFAULT_AUDIO_SINK@ | grep -q "\\[MUTED\\]" '';
-	echo-current-volume =
-	'' wpctl get-volume @DEFAULT_AUDIO_SINK@ | grep -oP "\\.[0-9]+" | grep -oP "[0-9]+" '';
-	echo-output =
-	'' if ${grep-muted}; then echo "MUTED VOL $(${echo-current-volume})"; else echo "VOL $(${echo-current-volume})"; fi ''; 
-      in {
-        type = "custom/script";
-	label = "%output%";
-	label-font = 2;
-	interval = "2.0";
-	exec = "${echo-output}";
-	click-left = "wpctl set-mute @DEFAULT_AUDIO_SINK@; ${echo-output} &";
-	scroll-up = "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+; ${echo-output} &";
-	scroll-down = "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-; ${echo-output} &";
       };
 
       "module/xkeyboard" = {

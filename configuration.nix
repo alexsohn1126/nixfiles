@@ -107,7 +107,6 @@
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     neovim
-    vscode
     firefox
     kitty
     xclip

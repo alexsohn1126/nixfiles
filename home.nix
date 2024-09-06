@@ -26,9 +26,6 @@
     pkgs.spotify
     pkgs.discord
 
-    # # You can also create simple shell scripts directly inside your
-    # # configuration. For example, this adds a command 'my-hello' to your
-    # # environment:
     # (pkgs.writeShellScriptBin "my-hello" ''
     #   echo "Hello, ${config.home.username}!"
     # '')
@@ -80,10 +77,23 @@
   programs.kitty = {
     enable = true;
     theme = "Catppuccin-Frappe";
+    settings = {
+      confirm_os_window_close = 0;
+      enable_audio_bell = false;
+    };
     font = {
       name = "JetBrainsMono";
       size = 12;
     };
+  };
+
+  # vscode
+  programs.vscode = {
+    enable = true;
+    extensions = with pkgs.vscode-extensions; [
+      vscodevim.vim
+      catppuccin.catppuccin-vsc
+    ];
   };
 
   # Enable Git
@@ -91,6 +101,9 @@
     enable = true;
     userName = "Alex Sohn";
     userEmail = "alexsohn1126@gmail.com";
+    extraConfig = {
+      core = { editor = "nvim"; };
+    };
   };
 
   # Overlay
