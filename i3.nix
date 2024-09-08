@@ -41,7 +41,7 @@ in
       "${modifier}+7" = "workspace number ${ws7}";
       "${modifier}+8" = "workspace number ${ws8}";
       "${modifier}+9" = "workspace number ${ws9}";
-      "${modifier}+10" = "workspace number ${ws10}";
+      "${modifier}+0" = "workspace number ${ws10}";
 
       # Move between workspaces
       "${modifier}+Shift+1" = "move container to workspace number ${ws1}";
@@ -53,7 +53,7 @@ in
       "${modifier}+Shift+7" = "move container to workspace number ${ws7}";
       "${modifier}+Shift+8" = "move container to workspace number ${ws8}";
       "${modifier}+Shift+9" = "move container to workspace number ${ws9}";
-      "${modifier}+Shift+10" = "move container to workspace number ${ws10}";
+      "${modifier}+Shift+0" = "move container to workspace number ${ws10}";
 
       # Use vim bindings
       "${modifier}+b" = "split h";
@@ -114,7 +114,7 @@ in
 
     # set workspace 1 to appear on primary screen always!
     workspaceOutputAssign = [
-      { workspace = "1"; output = "primary"; } 
+      { workspace = "${ws1}"; output = "primary"; } 
     ];
 
     startup = [
@@ -123,9 +123,11 @@ in
   };
   xsession.windowManager.i3.extraConfig = ''
     hide_edge_borders both
+    focus_on_window_activation focus
     for_window [class="firefox"] move workspace ${ws1}
     for_window [class="Code"] move workspace ${ws2}
     for_window [class="kitty"] move workspace ${ws3}
+    for_window [class="discord"] move workspace ${ws9}
     for_window [class="Spotify"] move workspace ${ws10}
   '';
 }

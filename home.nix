@@ -25,6 +25,7 @@
     pkgs.noto-fonts-cjk
     pkgs.spotify
     pkgs.discord
+    pkgs.emojipick
 
     # (pkgs.writeShellScriptBin "my-hello" ''
     #   echo "Hello, ${config.home.username}!"
@@ -93,7 +94,15 @@
     extensions = with pkgs.vscode-extensions; [
       vscodevim.vim
       catppuccin.catppuccin-vsc
+      ms-dotnettools.csharp
+      naumovs.color-highlight
     ];
+    userSettings = {
+      "workbench.colorTheme" = "Catppuccin Frappé";
+      "catppuccin.accentColor" = "sapphire";
+      "editor.fontFamily" = "'JetBrainsMonoNL NFM', 'monospace', monospace";
+      "window.titleBarStyle" = "custom";
+    };
   };
 
   # Enable Git
