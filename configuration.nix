@@ -36,6 +36,10 @@
 
   # Select internationalisation properties.
   i18n.defaultLocale = "en_CA.UTF-8";
+  i18n.inputMethod = {
+    enabled = "kime";
+    kime.iconColor = "White";
+  };
 
   # Autodetect usb shit
   services.devmon.enable = true;
@@ -45,7 +49,7 @@
   # picom
   services.picom.enable = true;
 
-  # Configure keymap in X11
+  # X11
   services.xserver = {
     enable = true;
 
@@ -91,11 +95,19 @@
     packages = with pkgs; [];
   };
 
+  # Fish shell
+  programs.fish.enable = true;
+  users.users.alex.shell = pkgs.fish;
+
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
   
   # Enable Experimental shit
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
+
+  # Allow dynamic linked executables (for vscode)
+  # programs.nix-ld.enable = true;
+  # programs.nix-ld.package = pkgs.nix-ld-rs;
 
   # thunarr
   programs.thunar.enable = true;

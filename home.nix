@@ -4,6 +4,8 @@
   imports = [
     ./polybar.nix
     ./i3.nix
+    ./fish.nix
+    ./starship.nix
   ];
   home.username = "alex";
   home.homeDirectory = "/home/alex";
@@ -25,7 +27,7 @@
     pkgs.noto-fonts-cjk
     pkgs.spotify
     pkgs.discord
-    pkgs.emojipick
+    pkgs.devenv
 
     # (pkgs.writeShellScriptBin "my-hello" ''
     #   echo "Hello, ${config.home.username}!"
@@ -94,7 +96,6 @@
     extensions = with pkgs.vscode-extensions; [
       vscodevim.vim
       catppuccin.catppuccin-vsc
-      ms-dotnettools.csharp
       naumovs.color-highlight
     ];
     userSettings = {
