@@ -75,6 +75,12 @@
 
   # enable font config
   fonts.fontconfig.enable = true;
+
+  # direnv
+  programs.direnv = {
+    enable = true;
+    nix-direnv.enable = true;
+  };
   
   # kitty
   programs.kitty = {
