@@ -63,8 +63,8 @@
       "module/systray" = {
         type = "internal/tray";
 
-	format-margin = "8pt";
-	tray-spacing = "16pt";
+	format-margin = "0pt";
+	tray-spacing = "8pt";
       };
 
       "module/i3" = {

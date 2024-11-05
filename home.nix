@@ -28,6 +28,8 @@
     pkgs.spotify
     pkgs.discord
     pkgs.devenv
+    pkgs.pavucontrol
+    pkgs.droidcam
 
     # (pkgs.writeShellScriptBin "my-hello" ''
     #   echo "Hello, ${config.home.username}!"
@@ -103,6 +105,7 @@
       vscodevim.vim
       catppuccin.catppuccin-vsc
       naumovs.color-highlight
+      bradlc.vscode-tailwindcss
     ];
     userSettings = {
       "workbench.colorTheme" = "Catppuccin Frappé";

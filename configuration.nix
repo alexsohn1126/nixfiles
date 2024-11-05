@@ -8,15 +8,14 @@
   imports =
     [ # Include the results of the hardware scan.
       /etc/nixos/hardware-configuration.nix
+      ./secureboot.nix
       # Include home manager
       <home-manager/nixos>
     ];
 
   # Bootloader.
-  boot.loader.grub.enable = true;
-  boot.loader.grub.device = "nodev";
-  boot.loader.grub.useOSProber = true;
-  boot.loader.grub.efiSupport = true;
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = true;
 
   networking.hostName = "nixos"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -27,6 +26,24 @@
 
   # Enable networking
   networking.networkmanager.enable = true;
+
+  # Enable bluetooth
+  hardware.bluetooth.enable = true;
+  hardware.bluetooth.powerOnBoot = true;
+
+  # Bluetooth gui
+  services.blueman.enable = true;
+
+  # Droidcam setup
+  boot.kernelModules = [
+    "v4l2loopback"
+  ];
+
+  boot.extraModulePackages = [
+    pkgs.linuxPackages.v4l2loopback
+  ];
+
+  security.polkit.enable = true;
 
   # Set your time zone.
   time.timeZone = "America/Toronto";
@@ -99,6 +116,9 @@
   programs.fish.enable = true;
   users.users.alex.shell = pkgs.fish;
 
+  # allow myself to trusted users
+  nix.trustedUsers = ["root" "alex"];
+
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
   
@@ -113,6 +133,14 @@
   programs.thunar.enable = true;
   programs.thunar.plugins = with pkgs.xfce; [ thunar-volman ];
 
+  # steam
+  programs.steam = {
+    enable = true;
+  };
+
+  # enable ssh agent
+  programs.ssh.startAgent = true;
+
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
@@ -123,6 +151,7 @@
     maim
     git
     unzip
+    dunst
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
