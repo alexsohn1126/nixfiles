@@ -79,7 +79,7 @@
 
     displayManager = {
       defaultSession = "none+i3";
-      setupCommands = "${pkgs.xorg.xrandr}/bin/xrandr --output DP-4 --auto --primary --mode 1920x1080 --rate 239.73 --output DP-0 --auto";
+      setupCommands = "${pkgs.xorg.xrandr}/bin/xrandr --output DP-0 --mode 1920x1080 --rate 240 --pos 0x0 --rotate left --output DP-2 --primary --mode 1920x1080 --pos 1080x487 --rotate normal";
     };
 
     windowManager.i3 = {
@@ -152,6 +152,7 @@
     git
     unzip
     dunst
+    zlib
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -168,7 +169,8 @@
   # services.openssh.enable = true;
 
   # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
+  networking.firewall.enable = true;
+  networking.firewall.allowedTCPPorts = [ 5173 ];
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
