@@ -2,20 +2,28 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
+let
+    sources = import ./nix/sources.nix;
+    lanzaboote = import sources.lanzaboote;
+in
 {
   imports =
     [ # Include the results of the hardware scan.
       /etc/nixos/hardware-configuration.nix
-      ./secureboot.nix
+      lanzaboote.nixosModules.lanzaboote
       # Include home manager
       <home-manager/nixos>
     ];
 
   # Bootloader.
-  boot.loader.systemd-boot.enable = true;
+  boot.loader.systemd-boot.enable = lib.mkForce false;
   boot.loader.efi.canTouchEfiVariables = true;
+  boot.lanzaboote = {
+    enable = true;
+    pkiBundle = "/var/lib/sbctl";
+  };
 
   networking.hostName = "nixos"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -53,10 +61,7 @@
 
   # Select internationalisation properties.
   i18n.defaultLocale = "en_CA.UTF-8";
-  i18n.inputMethod = {
-    enabled = "kime";
-    kime.iconColor = "White";
-  };
+  i18n.inputMethod.type = "kime";
 
   # Autodetect usb shit
   services.devmon.enable = true;
@@ -70,31 +75,17 @@
   services.xserver = {
     enable = true;
 
-    layout = "us";
-    xkbVariant = "";
+    xkb.layout = "us";
+    xkb.variant = "";
 
     desktopManager = {
       xterm.enable = false;
     };
 
-    displayManager = {
-      defaultSession = "none+i3";
-      setupCommands = "${pkgs.xorg.xrandr}/bin/xrandr --output DP-0 --mode 1920x1080 --rate 240 --pos 0x0 --rotate left --output DP-2 --primary --mode 1920x1080 --pos 1080x487 --rotate normal";
-    };
+    displayManager.setupCommands = "${pkgs.xorg.xrandr}/bin/xrandr --output DP-0 --mode 1920x1080 --rate 240 --pos 0x0 --rotate left --output DP-2 --primary --mode 1920x1080 --pos 1080x487 --rotate normal";
 
-    windowManager.i3 = {
-      enable = true;
-      extraPackages = with pkgs; [
-        dmenu
-        i3status
-        i3lock
-      ];
-    };
+    windowManager.i3.enable = true;
   };
-
-  # Nvidia setup
-  hardware.opengl.enable = true;
-  services.xserver.videoDrivers = ["nvidia"];
 
   # Audio setup
   services.pipewire = {
@@ -117,7 +108,7 @@
   users.users.alex.shell = pkgs.fish;
 
   # allow myself to trusted users
-  nix.trustedUsers = ["root" "alex"];
+  nix.settings.trusted-users = ["root" "alex"];
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
@@ -153,7 +144,23 @@
     unzip
     dunst
     zlib
+    sbctl
+
+    koboldcpp
+    cudaPackages.libcublas
+    cudaPackages.cudatoolkit
+    cudaPackages.cudnn
+    cudaPackages.cuda_cccl
   ];
+
+  # Enable CUDA and set architecture for RTX 3080
+  nixpkgs.config.cudaSupport = true;
+  hardware.nvidia.open = true;
+
+  # Nvidia setup
+  hardware.graphics.enable = true;
+  services.xserver.videoDrivers = ["nvidia"];
+
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -170,7 +177,7 @@
 
   # Open ports in the firewall.
   networking.firewall.enable = true;
-  networking.firewall.allowedTCPPorts = [ 5173 ];
+  networking.firewall.allowedTCPPorts = [ 5001 5173 ];
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;

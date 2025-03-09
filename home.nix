@@ -6,6 +6,7 @@
     ./i3.nix
     ./fish.nix
     ./starship.nix
+    ./vscode.nix
   ];
   home.username = "alex";
   home.homeDirectory = "/home/alex";
@@ -21,18 +22,20 @@
 
   home.packages = [
     # Only install JetBrainsMono font
-    (pkgs.nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
+    pkgs.nerd-fonts.jetbrains-mono
 
     # Korean font
-    pkgs.noto-fonts-cjk
+    pkgs.noto-fonts-cjk-sans
     pkgs.spotify
     pkgs.discord
     pkgs.devenv
     pkgs.pavucontrol
     pkgs.droidcam
+    pkgs.obs-studio
 
     pkgs.bruno
     pkgs.openblas
+    pkgs.pixelorama
 
     # (pkgs.writeShellScriptBin "my-hello" ''
     #   echo "Hello, ${config.home.username}!"
@@ -57,7 +60,6 @@
   nixpkgs.config.allowUnfree = true;
   nixpkgs.config.allowUnfreePredicate = (_: true);
   
-
   # Home Manager can also manage your environment variables through
   # 'home.sessionVariables'. These will be explicitly sourced when using a
   # shell provided by Home Manager. If you don't want to manage your shell
@@ -90,75 +92,15 @@
   # kitty
   programs.kitty = {
     enable = true;
-    theme = "Catppuccin-Frappe";
+    themeFile = "Catppuccin-Frappe";
     settings = {
       confirm_os_window_close = 0;
       enable_audio_bell = false;
     };
     font = {
-      name = "JetBrainsMono";
+      name = "JetBrainsMonoNL";
       size = 12;
     };
-  };
-
-  # vscode
-  programs.vscode = {
-    enable = true;
-    extensions = with pkgs.vscode-extensions; [
-      catppuccin.catppuccin-vsc
-      bradlc.vscode-tailwindcss
-      esbenp.prettier-vscode
-      naumovs.color-highlight
-      vscodevim.vim
-    ];
-    userSettings = {
-      "workbench.colorTheme" = "Catppuccin Frappé";
-      "workbench.sideBar.location" = "right";
-
-      "catppuccin.accentColor" = "sapphire";
-
-      "window.titleBarStyle" = "custom";
-
-      "editor.formatOnSave" = true;
-      "editor.fontFamily" = "'JetBrainsMonoNL NFM', 'monospace', monospace";
-      "editor.lineNumbers" = "relative";
-      "editor.minimap.enabled" = false;
-      "editor.quickSuggestions" = {
-        "strings" = true;
-      };
-
-      "[javascript]" = {
-        "editor.tabSize" = 2;
-	"editor.defaultFormatter" = "esbenp.prettier-vscode";
-      };
-      "[javascriptreact]" = {
-        "editor.tabSize" = 2;
-	"editor.defaultFormatter" = "esbenp.prettier-vscode";
-      };
-      "[typescript]" = {
-        "editor.tabSize" = 2;
-	"editor.defaultFormatter" = "esbenp.prettier-vscode";
-      };
-      "[typescriptreact]" = {
-        "editor.tabSize" = 2;
-	"editor.defaultFormatter" = "esbenp.prettier-vscode";
-      };
-    };
-    keybindings = [
-      { 
-        "key" = "ctrl+tab";
-        "command" = "workbench.action.nextEditor";
-      }
-      { 
-        "key" = "ctrl+shift+tab";
-        "command" = "workbench.action.previousEditor";
-      }
-      { 
-        "key" = "ctrl+n";
-        "command" = "explorer.newFile";
-	"when" = "explorerViewletFocus";
-      }
-    ];
   };
 
   # Enable Git
