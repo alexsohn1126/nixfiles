@@ -46,7 +46,7 @@
     };
 
     nodejs = {
-      symbol = "";
+      symbol = "";
       style = "bg:green";
       format = "[[ $symbol( $version) ](fg:crust bg:green)]($style)";
     };
@@ -103,8 +103,8 @@
 
     format = lib.concatStrings [
       "[](red)"
-      "$username"
       "$os"
+      "$username"
       "[](bg:peach fg:red)"
       "$directory"
       "[](fg:peach bg:yellow)"

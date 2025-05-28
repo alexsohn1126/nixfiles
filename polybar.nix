@@ -47,7 +47,7 @@
 	separator = "|";
 	separator-foreground = disabled;
 
-	font-0 = "JetBrainsMonoNL Nerd Font;2";
+	font-0 = "JetBrainsMonoNL NFM;2";
 	font-1 = "Noto Sans Mono CJK KR;2";
 
 	modules-left = "i3";

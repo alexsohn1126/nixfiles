@@ -7,11 +7,13 @@
 let
     sources = import ./nix/sources.nix;
     lanzaboote = import sources.lanzaboote;
+    overpass-api = pkgs.callPackage ./overpass/overpass.nix {};
 in
 {
   imports =
     [ # Include the results of the hardware scan.
       /etc/nixos/hardware-configuration.nix
+      #./overpass/overpass-backend.nix
       lanzaboote.nixosModules.lanzaboote
       # Include home manager
       <home-manager/nixos>
@@ -42,6 +44,9 @@ in
   # Bluetooth gui
   services.blueman.enable = true;
 
+  # Printer stuff
+  services.printing.enable = true;
+
   # Droidcam setup
   boot.kernelModules = [
     "v4l2loopback"
@@ -61,6 +66,7 @@ in
 
   # Select internationalisation properties.
   i18n.defaultLocale = "en_CA.UTF-8";
+  i18n.inputMethod.enable = true;
   i18n.inputMethod.type = "kime";
 
   # Autodetect usb shit
@@ -99,7 +105,7 @@ in
   users.users.alex = {
     isNormalUser = true;
     description = "Alex";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [ "networkmanager" "wheel" "overpass" ];
     packages = with pkgs; [];
   };
 
@@ -135,9 +141,8 @@ in
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    neovim
     firefox
-    kitty
+    google-chrome
     xclip
     maim
     git
@@ -145,6 +150,11 @@ in
     dunst
     zlib
     sbctl
+    ripgrep
+
+    expat
+    osmctools
+    overpass-api
 
     koboldcpp
     cudaPackages.libcublas

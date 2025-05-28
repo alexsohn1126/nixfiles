@@ -6,7 +6,6 @@
     ./i3.nix
     ./fish.nix
     ./starship.nix
-    ./vscode.nix
   ];
   home.username = "alex";
   home.homeDirectory = "/home/alex";
@@ -32,11 +31,11 @@
     pkgs.pavucontrol
     pkgs.droidcam
     pkgs.obs-studio
-
     pkgs.bruno
     pkgs.openblas
     pkgs.pixelorama
-
+    pkgs.tree
+    pkgs.fd
     # (pkgs.writeShellScriptBin "my-hello" ''
     #   echo "Hello, ${config.home.username}!"
     # '')
@@ -103,6 +102,14 @@
     };
   };
 
+  # neovim
+  programs.neovim.enable = true;
+
+  home.file.".config/nvim" = {
+    source = ./nvim;
+    recursive = true;
+  };
+
   # Enable Git
   programs.git = {
     enable = true;
@@ -115,6 +122,11 @@
 
   # Overlay
   nixpkgs.overlays = [(import ./spotx.nix)];
+  
+  home.pointerCursor.x11.enable = true;
+  home.pointerCursor.name = "Bibata-Original-Ice";
+  home.pointerCursor.size = 24;
+  home.pointerCursor.package = pkgs.bibata-cursors;
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;

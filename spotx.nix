@@ -1,37 +1,42 @@
-final: prev: {
+final: prev:
+let
+  spotx = prev.fetchurl {
+    url = "https://raw.githubusercontent.com/SpotX-Official/SpotX-Bash/c3d4b777081b3cdb52d52b43ac1589c349c87173/spotx.sh";
+    hash = "sha256-Nw3aVhzACr41ZahUr6cXODkED9U7AxTVEc4AF/sqGkc=";
+  };
+in
+{
   spotify = prev.spotify.overrideAttrs (old: {
-    srcs = [
-      old.src
-      (prev.fetchurl {
-        url = "https://raw.githubusercontent.com/SpotX-Official/SpotX-Bash/67e2e1db68b082c57398602720886489781e7dd3/spotx.sh";
-        hash = "sha256-P4sCZcX4K7U/5Ha6EfqTvAMMU0ex5/3vSRLA/RfZaD0=";
-      })
-    ];
-
-    nativeBuildInputs = old.nativeBuildInputs ++ [prev.util-linux prev.perl prev.unzip prev.zip prev.curl];
+    nativeBuildInputs =
+      old.nativeBuildInputs
+      ++ (with prev; [
+        util-linux
+        perl
+        unzip
+        zip
+        curl
+      ]);
 
     unpackPhase =
       builtins.replaceStrings
-      [
-        "unsquashfs \"$src\" '/usr/share/spotify' '/usr/bin/spotify' '/meta/snap.yaml'"
-      ]
-      [
-        ''
-          unsquashfs "$(echo $srcs | awk '{print $1}')" '/usr/share/spotify' '/usr/bin/spotify' '/meta/snap.yaml'
-          patchShebangs --build "$(echo $srcs | awk '{print $2}')"
-        ''
-      ]
-      old.unpackPhase;
+        [ "runHook postUnpack" ]
+        [
+          ''
+            patchShebangs --build ${spotx}
+            runHook postUnpack
+          ''
+        ]
+        old.unpackPhase;
 
     installPhase =
       builtins.replaceStrings
-      ["runHook postInstall"]
-      [
-        ''
-          bash "$(echo $srcs | awk '{print $2}')" -f -P "$out/share/spotify"
-          runHook postInstall
-        ''
-      ]
-      old.installPhase;
+        [ "runHook postInstall" ]
+        [
+          ''
+            bash ${spotx} -f -P "$out/share/spotify"
+            runHook postInstall
+          ''
+        ]
+        old.installPhase;
   });
 }

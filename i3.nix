@@ -112,6 +112,20 @@ in
       };
     };
 
+    modes = 
+    let
+      modifier = config.xsession.windowManager.i3.config.modifier;
+    in lib.mkOptionDefault {
+      resize = {
+        "${modifier}+h" = "resize shrink width 10 px or 10 ppt";
+        "${modifier}+k" = "resize grow height 10 px or 10 ppt";
+        "${modifier}+j" = "resize shrink height 10 px or 10 ppt";
+        "${modifier}+l" = "resize grow width 10 px or 10 ppt";
+        "Escape" = "mode default";
+        "Return" = "mode default";
+      };
+    };
+
     # set workspace 1 to appear on primary screen always!
     workspaceOutputAssign = [
       { workspace = "${ws1}"; output = "primary"; } 
