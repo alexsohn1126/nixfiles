@@ -129,6 +129,7 @@ in
   # thunarr
   programs.thunar.enable = true;
   programs.thunar.plugins = with pkgs.xfce; [ thunar-volman ];
+  services.tumbler.enable = true;
 
   # steam
   programs.steam = {
