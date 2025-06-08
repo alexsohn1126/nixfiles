@@ -6,26 +6,16 @@
 
 let
     sources = import ./nix/sources.nix;
-    lanzaboote = import sources.lanzaboote;
-    overpass-api = pkgs.callPackage ./overpass/overpass.nix {};
 in
 {
   imports =
-    [ # Include the results of the hardware scan.
+    [
       /etc/nixos/hardware-configuration.nix
-      #./overpass/overpass-backend.nix
-      lanzaboote.nixosModules.lanzaboote
-      # Include home manager
       <home-manager/nixos>
-    ];
 
-  # Bootloader.
-  boot.loader.systemd-boot.enable = lib.mkForce false;
-  boot.loader.efi.canTouchEfiVariables = true;
-  boot.lanzaboote = {
-    enable = true;
-    pkiBundle = "/var/lib/sbctl";
-  };
+      #./desktop.nix
+      ./laptop.nix
+    ];
 
   networking.hostName = "nixos"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -46,17 +36,6 @@ in
 
   # Printer stuff
   services.printing.enable = true;
-
-  # Droidcam setup
-  boot.kernelModules = [
-    "v4l2loopback"
-  ];
-
-  boot.extraModulePackages = [
-    pkgs.linuxPackages.v4l2loopback
-  ];
-
-  security.polkit.enable = true;
 
   # Set your time zone.
   time.timeZone = "America/Toronto";
@@ -87,8 +66,6 @@ in
     desktopManager = {
       xterm.enable = false;
     };
-
-    displayManager.setupCommands = "${pkgs.xorg.xrandr}/bin/xrandr --output DP-0 --mode 1920x1080 --rate 240 --pos 0x0 --rotate left --output DP-2 --primary --mode 1920x1080 --pos 1080x487 --rotate normal";
 
     windowManager.i3.enable = true;
   };
@@ -122,19 +99,10 @@ in
   # Enable Experimental shit
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
-  # Allow dynamic linked executables (for vscode)
-  # programs.nix-ld.enable = true;
-  # programs.nix-ld.package = pkgs.nix-ld-rs;
-
   # thunarr
   programs.thunar.enable = true;
   programs.thunar.plugins = with pkgs.xfce; [ thunar-volman ];
   services.tumbler.enable = true;
-
-  # steam
-  programs.steam = {
-    enable = true;
-  };
 
   # enable ssh agent
   programs.ssh.startAgent = true;
@@ -150,28 +118,11 @@ in
     unzip
     dunst
     zlib
-    sbctl
     ripgrep
-
-    expat
-    osmctools
-    overpass-api
-
-    koboldcpp
-    cudaPackages.libcublas
-    cudaPackages.cudatoolkit
-    cudaPackages.cudnn
-    cudaPackages.cuda_cccl
   ];
 
-  # Enable CUDA and set architecture for RTX 3080
-  nixpkgs.config.cudaSupport = true;
-  hardware.nvidia.open = true;
-
-  # Nvidia setup
+  # graphics setup
   hardware.graphics.enable = true;
-  services.xserver.videoDrivers = ["nvidia"];
-
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
