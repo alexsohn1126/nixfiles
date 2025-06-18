@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ pkgs, ... }:
 
 {
   imports = [
@@ -36,6 +36,9 @@
     pkgs.pixelorama
     pkgs.tree
     pkgs.fd
+
+    pkgs.nil
+    pkgs.nixfmt-rfc-style
     # (pkgs.writeShellScriptBin "my-hello" ''
     #   echo "Hello, ${config.home.username}!"
     # '')
@@ -58,7 +61,7 @@
 
   nixpkgs.config.allowUnfree = true;
   nixpkgs.config.allowUnfreePredicate = (_: true);
-  
+
   # Home Manager can also manage your environment variables through
   # 'home.sessionVariables'. These will be explicitly sourced when using a
   # shell provided by Home Manager. If you don't want to manage your shell
@@ -87,7 +90,7 @@
     enable = true;
     nix-direnv.enable = true;
   };
-  
+
   # kitty
   programs.kitty = {
     enable = true;
@@ -116,13 +119,15 @@
     userName = "Alex Sohn";
     userEmail = "alexsohn1126@gmail.com";
     extraConfig = {
-      core = { editor = "nvim"; };
+      core = {
+        editor = "nvim";
+      };
     };
   };
 
   # Overlay
-  nixpkgs.overlays = [(import ./spotx.nix)];
-  
+  nixpkgs.overlays = [ (import ./spotx.nix) ];
+
   home.pointerCursor.x11.enable = true;
   home.pointerCursor.name = "Bibata-Original-Ice";
   home.pointerCursor.size = 24;
