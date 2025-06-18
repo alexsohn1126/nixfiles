@@ -17,3 +17,5 @@ This config is meant to be used for both my desktop and laptop.
 
 comment desktop.nix or laptop.nix out depending on what you are using right now.
 
+if spotify is not working, check out this guy's config: https://github.com/oskardotglobal/.dotfiles
+
