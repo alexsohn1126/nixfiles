@@ -2,13 +2,11 @@
 
 {
   imports = [
-    ./polybar.nix
-    ./i3.nix
-    ./fish.nix
+    ./zsh.nix
     ./starship.nix
   ];
-  home.username = "alex";
-  home.homeDirectory = "/home/alex";
+  home.username = "alexsohn";
+  home.homeDirectory = "/Users/alexsohn";
 
   # This value determines the Home Manager release that your configuration is
   # compatible with. This helps avoid breakage when a new Home Manager release
@@ -20,28 +18,9 @@
   home.stateVersion = "23.11"; # Please read the comment before changing.
 
   home.packages = [
-    # Only install JetBrainsMono font
-    pkgs.nerd-fonts.jetbrains-mono
-
-    # Korean font
-    pkgs.noto-fonts-cjk-sans
-    pkgs.spotify
-    pkgs.discord
     pkgs.devenv
-    pkgs.pavucontrol
-    pkgs.droidcam
-    pkgs.obs-studio
-    pkgs.bruno
-    pkgs.openblas
-    pkgs.pixelorama
     pkgs.tree
     pkgs.fd
-
-    pkgs.nil
-    pkgs.nixfmt-rfc-style
-    # (pkgs.writeShellScriptBin "my-hello" ''
-    #   echo "Hello, ${config.home.username}!"
-    # '')
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
@@ -91,17 +70,15 @@
     nix-direnv.enable = true;
   };
 
-  # kitty
-  programs.kitty = {
+  # ghostty (installed via Homebrew/dmg on macOS, config managed here)
+  programs.ghostty = {
     enable = true;
-    themeFile = "Catppuccin-Frappe";
+    installBatSyntax = false;
+    package = null;
     settings = {
-      confirm_os_window_close = 0;
-      enable_audio_bell = false;
-    };
-    font = {
-      name = "JetBrainsMonoNL";
-      size = 12;
+      theme = "catppuccin-frappe";
+      font-family = "JetBrainsMonoNL";
+      font-size = 12;
     };
   };
 
@@ -116,22 +93,14 @@
   # Enable Git
   programs.git = {
     enable = true;
-    userName = "Alex Sohn";
-    userEmail = "alexsohn1126@gmail.com";
-    extraConfig = {
-      core = {
-        editor = "nvim";
+    settings = {
+      user = {
+        name = "Alex Sohn";
+        email = "alexsohn1126@gmail.com";
       };
+      core.editor = "nvim";
     };
   };
-
-  # Overlay
-  nixpkgs.overlays = [ (import ./spotx.nix) ];
-
-  home.pointerCursor.x11.enable = true;
-  home.pointerCursor.name = "Bibata-Original-Ice";
-  home.pointerCursor.size = 24;
-  home.pointerCursor.package = pkgs.bibata-cursors;
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
