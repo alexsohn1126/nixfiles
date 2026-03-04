@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 
 {
   imports = [
@@ -19,8 +19,10 @@
 
   home.packages = [
     pkgs.devenv
-    pkgs.tree
     pkgs.fd
+    pkgs.tree
+
+    pkgs.nerd-fonts.jetbrains-mono
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
@@ -63,6 +65,112 @@
 
   # enable font config
   fonts.fontconfig.enable = true;
+
+  # Create macOS aliases in ~/Applications so Spotlight can find Nix apps
+  # (macOS doesn't index symlinks, but it does index aliases)
+  home.activation.aliasNixApps = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    app_folder="$HOME/Applications/Nix Apps"
+    mkdir -p "$app_folder"
+    # Remove old aliases
+    find "$app_folder" -maxdepth 1 -type f -name "*.app" -delete 2>/dev/null || true
+    # Create macOS aliases for each .app in the HM profile
+    for app in "$HOME"/.nix-profile/Applications/*.app; do
+      [ -e "$app" ] || continue
+      app_name="$(basename "$app")"
+      real_app="$(readlink -f "$app")"
+      ${pkgs.writeShellScript "mkalias" ''
+        /usr/bin/osascript -e "
+          tell application \"Finder\"
+            set theApp to POSIX file \"$1\" as alias
+            make new alias file at POSIX file \"$2\" to theApp with properties {name:\"$3\"}
+          end tell
+        "
+      ''} "$real_app" "$app_folder" "$app_name"
+    done
+  '';
+
+  # Copy Nerd Fonts to ~/Library/Fonts so macOS can discover them
+  # (macOS CoreText doesn't follow symlinks, so we must copy real files)
+  home.activation.copyNerdFonts = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    fontsDir="$HOME/Library/Fonts/NerdFonts"
+    mkdir -p "$fontsDir"
+    chmod -R u+w "$fontsDir" 2>/dev/null || true
+    ${pkgs.rsync}/bin/rsync -a --delete \
+      "${pkgs.nerd-fonts.jetbrains-mono}/share/fonts/truetype/NerdFonts/" \
+      "$fontsDir/"
+    chmod -R u+w "$fontsDir"
+  '';
+
+  # aerospace
+  programs.aerospace = {
+    enable = true;
+    settings = {
+      accordion-padding = 10;
+
+      mode.main.binding = {
+        # focus (alt + h/j/k/l)
+        alt-h = "focus left";
+        alt-j = "focus down";
+        alt-k = "focus up";
+        alt-l = "focus right";
+
+        # move window (alt + shift + h/j/k/l)
+        alt-shift-h = "move left";
+        alt-shift-j = "move down";
+        alt-shift-k = "move up";
+        alt-shift-l = "move right";
+
+        # switch workspace (alt + 0-9)
+        alt-1 = "workspace 1";
+        alt-2 = "workspace 2";
+        alt-3 = "workspace 3";
+        alt-4 = "workspace 4";
+        alt-5 = "workspace 5";
+        alt-6 = "workspace 6";
+        alt-7 = "workspace 7";
+        alt-8 = "workspace 8";
+        alt-9 = "workspace 9";
+        alt-0 = "workspace 10";
+
+        # move window to workspace (alt + shift + 0-9)
+        alt-shift-1 = "move-node-to-workspace 1";
+        alt-shift-2 = "move-node-to-workspace 2";
+        alt-shift-3 = "move-node-to-workspace 3";
+        alt-shift-4 = "move-node-to-workspace 4";
+        alt-shift-5 = "move-node-to-workspace 5";
+        alt-shift-6 = "move-node-to-workspace 6";
+        alt-shift-7 = "move-node-to-workspace 7";
+        alt-shift-8 = "move-node-to-workspace 8";
+        alt-shift-9 = "move-node-to-workspace 9";
+        alt-shift-0 = "move-node-to-workspace 10";
+
+        # layout
+        alt-slash = "layout tiles horizontal vertical";
+        alt-comma = "layout accordion horizontal vertical";
+        alt-f = "fullscreen";
+        alt-shift-space = "layout floating tiling";
+
+        # resize
+        alt-minus = "resize smart -50";
+        alt-equal = "resize smart +50";
+
+        # move workspace to monitor
+        alt-shift-tab = "move-workspace-to-monitor --wrap-around next";
+
+        # service mode
+        alt-shift-semicolon = "mode service";
+      };
+
+      mode.service.binding = {
+        esc = ["reload-config" "mode main"];
+        r = ["flatten-workspace-tree" "mode main"];
+        alt-shift-h = ["join-with left" "mode main"];
+        alt-shift-j = ["join-with down" "mode main"];
+        alt-shift-k = ["join-with up" "mode main"];
+        alt-shift-l = ["join-with right" "mode main"];
+      };
+    };
+  };
 
   # direnv
   programs.direnv = {

@@ -18,6 +18,7 @@
     os = {
       disabled = false;
       symbols.NixOS = " ";
+      symbols.Macos = " ";
       style = "bg:red fg:crust";
     };
 
