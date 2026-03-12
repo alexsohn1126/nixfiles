@@ -20,6 +20,7 @@
   home.packages = [
     pkgs.fd
     pkgs.tree
+    pkgs.nil
 
     pkgs.nerd-fonts.jetbrains-mono
   ];
@@ -185,7 +186,7 @@
     settings = {
       theme = "catppuccin-frappe";
       font-family = "JetBrainsMonoNL";
-      font-size = 12;
+      font-size = 16;
     };
   };
 

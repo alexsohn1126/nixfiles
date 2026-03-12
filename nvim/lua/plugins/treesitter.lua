@@ -1,7 +1,7 @@
 return {
   "nvim-treesitter/nvim-treesitter",
   build = ":TSUpdate",
-  configs = {
+  opts = {
     ensure_installed = { "lua", "typescript" },
     auto_install = true,
 
