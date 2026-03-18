@@ -40,9 +40,6 @@ in
   # Set your time zone.
   time.timeZone = "America/Toronto";
 
-  # Timezone setup to fix windows time bug thing
-  time.hardwareClockInLocalTime = true;
-
   # Select internationalisation properties.
   i18n.defaultLocale = "en_CA.UTF-8";
   i18n.inputMethod.enable = true;

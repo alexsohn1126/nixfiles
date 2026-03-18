@@ -8,3 +8,5 @@ keymap("n", "<leader>fh", "<cmd>Telescope help_tags<CR>", opts)
 
 keymap("i", "<c-s>", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
 
+vim.o.clipboard = "unnamedplus"
+

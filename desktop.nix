@@ -29,6 +29,10 @@ in
     pkiBundle = "/var/lib/sbctl";
   };
 
+
+  # Timezone setup to fix windows time bug thing
+  time.hardwareClockInLocalTime = true;
+
   # Nvidia & CUDA
   nixpkgs.config.cudaSupport = true;
   hardware.nvidia.open = true;

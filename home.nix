@@ -36,6 +36,7 @@
     pkgs.pixelorama
     pkgs.tree
     pkgs.fd
+    pkgs.vlc
     # (pkgs.writeShellScriptBin "my-hello" ''
     #   echo "Hello, ${config.home.username}!"
     # '')
