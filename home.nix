@@ -37,9 +37,10 @@
     pkgs.tree
     pkgs.fd
     pkgs.vlc
-    # (pkgs.writeShellScriptBin "my-hello" ''
-    #   echo "Hello, ${config.home.username}!"
-    # '')
+    pkgs.vencord
+    pkgs._1password
+    pkgs._1password-gui
+    pkgs.qbittorrent
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
