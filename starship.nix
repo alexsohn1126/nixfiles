@@ -3,7 +3,7 @@
 {
   programs.starship.enable = true;
   # Transience allows starship to delete previous outputs
-  programs.starship.enableTransience = true;
+  programs.starship.enableTransience = false;
 
   programs.starship.settings = {
     directory.fish_style_pwd_dir_length = 1;
@@ -117,7 +117,7 @@
       "[](fg:green bg:teal)"
       "[](fg:teal bg:blue)"
       "$time"
-      "[ ](fg:blue)"
+      "[](fg:blue)"
       "$line_break"
       "$character"
     ];

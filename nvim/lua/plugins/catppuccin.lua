@@ -3,12 +3,12 @@ return {
   name = "catppuccin",
   priority = 1000,
 
-  config = function()
-    require("catppuccin").setup({
-      flavour = "frappe",
-      transparent_background = false,
-    })
-
+  opts = {
+    flavour = "frappe",
+    transparent_background = false,
+  },
+  config = function(_, opts)
+    require("catppuccin").setup(opts)
     vim.cmd.colorscheme("catppuccin")
   end,
 }
