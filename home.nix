@@ -184,7 +184,7 @@
     installBatSyntax = false;
     package = null;
     settings = {
-      theme = "catppuccin-frappe";
+      theme = "Catppuccin Frappe";
       font-family = "JetBrainsMonoNL";
       font-size = 16;
     };
@@ -207,6 +207,7 @@
         email = "alexsohn1126@gmail.com";
       };
       core.editor = "nvim";
+      push.autoSetupRemote = true;
     };
   };
 
