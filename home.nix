@@ -60,7 +60,8 @@
   #  /etc/profiles/per-user/alex/etc/profile.d/hm-session-vars.sh
   #
   home.sessionVariables = {
-    # EDITOR = "emacs";
+    EDITOR = "nvim";
+    VISUAL = "nvim";
   };
 
   # enable font config
@@ -185,7 +186,7 @@
     package = null;
     settings = {
       theme = "Catppuccin Frappe";
-      font-family = "JetBrainsMonoNL";
+      font-family = "JetBrainsMonoNL NF";
       font-size = 16;
     };
   };
