@@ -100,7 +100,7 @@
     };
     font = {
       name = "JetBrainsMonoNL";
-      size = 12;
+      size = 18;
     };
   };
 
