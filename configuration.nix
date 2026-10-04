@@ -134,6 +134,9 @@ in
   # Enable the OpenSSH daemon.
   # services.openssh.enable = true;
 
+  # Tailscale VPN
+  services.tailscale.enable = true;
+
   # Open ports in the firewall.
   networking.firewall.enable = true;
   networking.firewall.allowedTCPPorts = [ 5001 5173 ];
