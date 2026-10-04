@@ -31,6 +31,10 @@ in
       "XF86AudioLowerVolume" = "exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-";
       "XF86AudioRaiseVolume" = "exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+";
 
+      # Screen brightness
+      "XF86MonBrightnessDown" = "exec brightnessctl set 5%-";
+      "XF86MonBrightnessUp" = "exec brightnessctl set 5%+";
+
       # Workspaces
       "${modifier}+1" = "workspace number ${ws1}";
       "${modifier}+2" = "workspace number ${ws2}";

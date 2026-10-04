@@ -29,6 +29,7 @@
     pkgs.discord
     pkgs.devenv
     pkgs.pavucontrol
+    pkgs.brightnessctl
     pkgs.droidcam
     pkgs.obs-studio
     pkgs.bruno
