@@ -98,7 +98,7 @@ in
 
   # thunarr
   programs.thunar.enable = true;
-  programs.thunar.plugins = with pkgs.xfce; [ thunar-volman ];
+  programs.thunar.plugins = with pkgs; [ thunar-volman ];
   services.tumbler.enable = true;
 
   # enable ssh agent

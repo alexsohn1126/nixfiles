@@ -39,7 +39,7 @@
     pkgs.fd
     pkgs.vlc
     pkgs.vencord
-    pkgs._1password
+    pkgs._1password-cli
     pkgs._1password-gui
     pkgs.qbittorrent
   ];
@@ -126,6 +126,7 @@
   # Overlay
   nixpkgs.overlays = [(import ./spotx.nix)];
   
+  home.pointerCursor.enable = true;
   home.pointerCursor.x11.enable = true;
   home.pointerCursor.name = "Bibata-Original-Ice";
   home.pointerCursor.size = 24;
