@@ -35,6 +35,9 @@ in
       "XF86MonBrightnessDown" = "exec brightnessctl set 5%-";
       "XF86MonBrightnessUp" = "exec brightnessctl set 5%+";
 
+      # Power button suspends (logind ignores it, see laptop.nix)
+      "XF86PowerOff" = "exec systemctl suspend";
+
       # Workspaces
       "${modifier}+1" = "workspace number ${ws1}";
       "${modifier}+2" = "workspace number ${ws2}";
