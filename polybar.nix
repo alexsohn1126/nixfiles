@@ -52,7 +52,7 @@
 
 	modules-left = "i3";
 	modules-center = "xwindow";
-	modules-right = "volume xkeyboard systray date";
+	modules-right = "volume xkeyboard battery systray date";
 
 	cursor-click = "pointer";
 	cursor-scroll = "ns-resize";
@@ -110,6 +110,22 @@
 	label-indicator-margin = 1;
 	label-indicator-foreground = background;
 	label-indicator-background = secondary;
+      };
+
+      "module/battery" = {
+        type = "internal/battery";
+	battery = "CMB0";
+	adapter = "ADP1";
+	full-at = 99;
+	low-at = 15;
+	poll-interval = 5;
+
+	label-charging = "󰂄 %percentage%%";
+	label-discharging = "󰁹 %percentage%%";
+	label-full = "󰁹 %percentage%%";
+	format-low = "<label-low>";
+	label-low = "󰂃 %percentage%%";
+	label-low-foreground = alert;
       };
 
       "module/date" = {
