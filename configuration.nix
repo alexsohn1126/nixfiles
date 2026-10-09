@@ -15,6 +15,7 @@ in
 
       #./desktop.nix
       ./laptop.nix
+      ./remote-screen.nix # noVNC over Tailscale, for CAPTCHA handoffs
     ];
 
   networking.hostName = "nixos"; # Define your hostname.
